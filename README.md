@@ -99,6 +99,7 @@ not being detected, and I get a lisp death instead. Why is that?](#s5q5)
 symbols in a package?](#s5q6)
 * [Why is equal hash table access slow when the keys are structure
 objects?](#structureht)
+* [Why doesn't tracing a self-calling function trace the inner calls?](#tracerecurse)
 
 ## [Heap placement issues](#s-heap)
 
@@ -869,6 +870,61 @@ hash-table, you can use the equalp test function in your make-hash-table
 call, rather than equal. If you do, however, make sure that these struct
 objects don't change, because then they may not be found in the
 hash-table.
+
+### <span id="tracerecurse">Q. Why doesn't tracing a self-calling function trace the inner calls?</span>
+
+This [trace
+example](https://franz.com/support/documentation/current/doc/debugging.htm#trace-example-2)
+provides the following code:
+
+```
+(defun fact (n)
+  (cond ((= n 1) 1)
+  (t (* n (fact (1- n))))))
+
+```
+
+which works interpreted, but on some architectures produces a
+truncated result when the function is compiled, e.g.:
+
+```
+cl-user(4): (fact 5)
+ 0[2]: (fact 5)
+ 0[2]: returned 120
+120
+cl-user(5): 
+
+```
+
+Different architectures produce different output, depending on details
+of their instruction set, number or registers, and so on. 32-bit x86
+architectures, for example, tend to produce the full trace output,
+while 64-bit Lisps on 64-bit x36 architectures tend to produce the
+above truncated output, bypassing the trace output.
+
+The issue is that a self-call can be made very efficient in
+architectures that take on the x86-64 style compilation, and as such
+they bypass the central call site which performs the Lisp function
+call. This call site is very efficient for calls to other functions,
+but is normally bypassed for an extra bit of efficiency when calling
+the same function (since the function register doesn't need to be
+loaded, because it is already in the right place, and the correct
+instruction is trivial to locate - it is the pc-relative 0 location in
+the current code vector). This bypassing of the call site is performed
+regardless of any tail-call merge settings, but can be thwarted by
+declaring the function notinline:
+
+```
+(defun fact (n)
+  (declare (notinline fact))
+  (cond ((= n 1) 1)
+  (t (* n (fact (1- n))))))
+
+```
+
+This declaration removes the special handling of the self-call, and
+thus self-recursive calls are made through the central call site,
+where the trace mechanism will see the call.
 
 ## <span id="s-heap">Heap placement issues</span>
 
