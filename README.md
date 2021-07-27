@@ -1,7 +1,5 @@
 # Allegro Common Lisp FAQ
 
-\[Last updated on: 2019-08-08.\]
-
 <div>
 
 This is a list of frequently asked questions on the use of Allegro
@@ -32,11 +30,12 @@ items stay in the FAQ more or less permanently.
 
 ## Most recent FAQ entries
 
+* [How do I install the IDE Browser version (CGJS)?](#cgjsinstall)
+* [How do I get the latest version of AllegroCache?](#acachelatest)
 * [Why is equal hash table access slow when the keys are structure objects?](#structureht)
 * [Which versions and platforms have symmetric multiprocessing (SMP) extensions?](#smpversions)
 * [\[Express\] What is the best way to update the Express Edition?](#updatingexpress)
 * [What issues must I be aware of when using excl.osi:fork](#fork) 
-* [\[Express\] and 32-bit Edition does not work on Ubuntu](#ubuntu32bit)
 
 </div>
 
@@ -82,6 +81,10 @@ your license?](#lfmissingemail)
 do?](#lfcannotaccessurl)
 * [I still have problems with my license file. Can I contact you for
 assistance?](#s4q4)
+
+## [Common Graphics/IDE Browser Version (CG/JS)](#s-cgjs)
+
+* [How do I install the IDE Browser version (CG/JS)?](#cgjsinstall)
 
 ## [Using Allegro Common Lisp](#s-usingacl)
 
@@ -135,6 +138,10 @@ Why?](#memgobble)
 ## [Foreign Functions Interface](#s-ffi)
 
 * [How do I pass and return 64-bit integers through the FFI?](#s8q1)
+
+## [Acache](#s-acache)
+
+* [How do I get the latest version of AllegroCache?](#acachelatest)
 
 ## [CLIM](#s-clim)
 
@@ -611,9 +618,25 @@ be sure to include the following information:
   - a copy of any error messages that you received; and
   - your current email address and daytime telephone number
 
-## <span id="s-usingacl">Using Allegro Common Lisp</span>
+## [Common Graphics/IDE Browser Version (CG/JS)](#s-cgjs)
+
+* [How do I install the IDE Browser version (CG/JS)?](#cgjsinstall)
+
+## <span id="s-cgjs">Common Graphics/IDE Browser Version (CG/JS)</span>
+
+### <span id="cgjsinstall">How do I install the IDE Browser version (CG/JS)?</span>
+
+CG/JS is a version of Common Graphics and the Integrated Development
+Environment which works entirely in a browser. No special windowing
+system (like OpenGL) is required. See
+[https://franz.com/ftp/pri/acl/cgjs/](https://franz.com/ftp/pri/acl/cgjs/)
+for more information and instructions on downloading the necessary
+files (no additional license is required). That link also points to
+documentation.
 
 <span id="s5q1"></span>
+
+## <span id="s-usingacl">Using Allegro Common Lisp</span>
 
 ### <span id="ubuntu32bit">Q. \[Express\] and 32-bit Edition does not work on Ubuntu</span>
 
@@ -1792,6 +1815,22 @@ function call.
 The above code could be further generalized to allow for multiple
 allocation types. Users are cautioned to be careful not to introduce
 memory leaks into their application.
+
+## <span id="s-acache">AllegroCache</span>
+
+<span id="acachelatest"></span>
+
+### Q. How do I get the latest version of AllegroCache?
+
+Downloading all the latest Allegro CL patches will download, if
+necessary, the latest version of
+[AllegroCache](https://franz.com/products/allegrocache/). Evaluating
+`(require :acache)` will signal an error but also print information on
+the available versions of AllegroCache along with instruction on how
+to load them. See also [the AllegroCache
+page](https://franz.com/products/allegrocache/) and [the AllegroCache
+Download
+Page](https://franz.com/products/allegrocache/download/dist/download).
 
 ## <span id="s-clim">CLIM</span>
 
